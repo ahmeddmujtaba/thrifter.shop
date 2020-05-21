@@ -1,0 +1,86 @@
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Craigslist 2.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    
+    <link rel="stylesheet" href="/static/css/materialize.css">
+    <link href="/static/css/googleicons.css">
+    <link rel="stylesheet" href="/static/css/bootstrap1.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="container nav-wrapper">
+        <a href="/" class="brand-logo">Thrifter</a>
+        <ul id="nav-mobile" class="right">
+            <li><a href="/">Home</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+<p></p>
+<p></p>
+<p></p>
+<h1 style="text-align: center">What do you want to search for?</h1>
+<div class="row">
+        <div class="col s4">
+            <div class="center">
+                <i class="large material-icons" style="color: #EE6E73">monetization_on</i>
+                <p>Save Money</p>
+                <p class="light center">Find The Cheapest Options</p>
+            </div>
+        </div>
+
+    <div class="col s4">
+        <div class="center">
+            <i class="large material-icons" style="color: orange;">access_time</i>
+            <p>Save Time</p>
+            <p class="light center">No Need for Multiple Sites</p>
+        </div>
+    </div>
+
+    <div class="col s4">
+        <div class="center">
+            <i class="large material-icons" style="color: blue;">redeem</i>
+            <p>Shopping Made Easier</p>
+            <p class="light center">Get Exactly What You Want!</p>
+        </div>
+    </div>
+</div>
+
+<form action="{% url 'new_search' %}" method="post">
+    {% csrf_token %}
+    {{ form|crispy}}
+
+
+    <input type="text" name="search" placeholder="search">
+    
+    <button class="btn waves-effect waves-light" type="submit" name="kijiji">Search
+        <i class="material-icons right">send</i>
+    </button>
+
+</form>
+
+
+
+
+
+
+    {% block content %}
+
+    {% endblock content %}
+</div>
+<script>
+    
+</script>
+</body>
+</html>

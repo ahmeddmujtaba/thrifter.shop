@@ -1,0 +1,54 @@
+body .container  .card{
+    border-radius: 25px;
+    height: 350px;
+    width: 200px;
+    overflow: hidden;
+    border: 2px black solid;
+    border-radius: 25px;
+    
+
+
+}
+
+.card-image {
+    height: 250px;
+    overflow: hidden;
+    transition: 1s ease;
+    
+}
+
+body {
+    color: black;
+}
+
+
+.card:hover .card-image{
+    height:0px;
+    transition: 1s ease;
+    
+}
+
+.card:hover .card-content{
+    height: 250px;
+    transition: 1s ease;
+    
+}
+
+.card:hover .card-action{
+    height: 280px;
+    transition: 1s ease;
+    
+}
+
+.card-content {
+    height: 100px;
+    overflow: hidden;
+    text-align: center;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+}
+
+.card-action {
+    height: 180px;
+    overflow: hidden;
+}
