@@ -26,7 +26,7 @@
     </div>
 </nav>
 
-<div class="container">
+<div id = "container" class="container">
 <p></p>
 <p></p>
 <p></p>
@@ -64,7 +64,7 @@
 
     <input type="text" name="search" placeholder="search">
     
-    <button class="btn waves-effect waves-light" type="submit" name="kijiji">Search
+    <button onclick="smt()" class="btn waves-effect waves-light" type="submit" name="kijiji">Search
         <i class="material-icons right">send</i>
     </button>
 
@@ -79,7 +79,24 @@
 
     {% endblock content %}
 </div>
+
+<div id = "loader" class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+</div>
+
+
+
+
 <script>
+    
+    
+    function smt(){
+        alert("Pressed");
+        document.getElementById("loader").className = "loader-wrapper";
+        document.getElementById("loader").className = "hide";
+        alert("defpressed");
+    }
+    
     
 </script>
 </body>

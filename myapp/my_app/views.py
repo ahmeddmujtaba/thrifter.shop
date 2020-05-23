@@ -7,7 +7,7 @@ from .forms import SearchForm
 import mechanize
 import urllib3
 import urllib
-from mech import smt, liner, kijijiUrlMaker, sorter, craigslistUrlMaker, numberfinder
+from mech import smt, liner, kijijiUrlMaker, sorter, craigslistUrlMaker, numberfinder, letgoUrlMaker, priceSorter, distSorter
 
 
 BASE_URL = 'https://toronto.craigslist.org/search/sss?query={}&sort=rel'
@@ -25,8 +25,10 @@ def home(request):
 fuckup = 'starts'
 
 def new_search(request):
+    render(request,'base.html')
     if request.POST:
-        print(request.POST)
+        #(request.POST)
+        
 
         if 'search' in request.POST:
             search = request.POST.get('search')
@@ -34,7 +36,7 @@ def new_search(request):
             minprice = request.POST.get('minPrice')
             maxprice = request.POST.get('maxPrice')
             if request.POST.get('radius') == '':
-                radius = '100'
+                radius = '50'
             else:
                 radius = request.POST.get('radius')
             search = request.POST.get('search')
@@ -42,7 +44,7 @@ def new_search(request):
             final_url = craigslistUrlMaker(address,radius,minprice,maxprice,search)
             response = requests.get(final_url)
             data = response.text
-            soup = BeautifulSoup(data, features='html.parser')
+            soup = BeautifulSoup(data, features='lxml')
             form = SearchForm(request.POST)
             
 
@@ -64,10 +66,10 @@ def new_search(request):
                 if post.find(class_='result-tags').find(class_='maptag'):
                     post_distance = post.find(class_='result-tags')
                     post_distance = str(post_distance)
-                    print(post_distance)
+                    #(post_distance)
                 else:
                     post_distance = 0.0
-                    print('no')
+                    #('no')
                 
 
                 if post.find(class_='result-image').get('data-ids'):
@@ -92,15 +94,15 @@ def new_search(request):
             final_url= kijijiUrlMaker(address,radius,minprice,maxprice,search)
             response = requests.get(final_url)
             data = response.text
-            print(final_url)
+            #(final_url)
             
             
-            soup = BeautifulSoup(data, features='html.parser')
+            soup = BeautifulSoup(data, features='lxml')
             for post_listings in soup.find_all('div', class_='search-item'):
                 post_info = post_listings.find('div', class_='clearfix')
                 post_price = post_info.find('div',class_='price').text.strip()
                 post_distance = post_info.find('div',class_='distance').text.strip()
-                print('distance: ',post_distance)
+                #('distance: ',post_distance)
                 link = post_info.a['href']
                 post_link = 'https://kijiji.ca' + link
                 title = post_info.a.text.strip()
@@ -111,6 +113,9 @@ def new_search(request):
                 post_location = post_info.find(class_='location').text[:150].strip()
                 final_postings.append([title,post_link,post_price,post_image_url,post_distance,post_location])
             i=0
+            
+            final_postings = letgoUrlMaker(address,radius,minprice,maxprice,search,final_postings)
+            
             for post in final_postings:
                 post[2] = post[2].replace(',','')
                 try:
@@ -120,13 +125,16 @@ def new_search(request):
                     post[2] = 0.0
             
             for post in final_postings:
+                #('Value: ',post[4],type(post[4]))
                 
                 try:
                     post[4] = float(numberfinder(post[4]))
-                    print('yes',post[4])
+                    #('yes',post[4])
                 except ValueError:
-                    print(post[4])
                     post[4] = 0.0
+                    #(post[4])
+                
+                #('')
                 
 
             if request.POST['filter'] == '3':
@@ -142,9 +150,11 @@ def new_search(request):
                 if post[4] == 0.0:
                     post[4] = 'Contact Seller'
                 else: 
-                    post[4] = str(post[4]) + 'km'
+                    post[4] = str(post[4]) 
 
-            
+            priceSorter(final_postings)
+            distSorter(final_postings)
+
             stuff_for_front_end = {
                 'search':search,
                 'final_postings': final_postings,

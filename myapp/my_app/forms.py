@@ -8,12 +8,20 @@ locations = [
 ]
 
 filters = [
-    (1, 'Newest'),
-    (2, 'Oldest'),
-    (3, 'Price:Low'),
-    (4, 'Price:High'),
-    (5, 'Closest Distance')
+    (1, 'Most Relevant'),                
+    (2, 'Price:Lowest'),
+    (3, 'Price:Highest'),
+    (4, 'Closest Distance')
 
+]
+
+dates = [
+    (1,'Last Hour'),
+    (2, 'Today'),
+    (3, 'This Week'),
+    (4, 'This Month'),
+    (5, 'This Year'),
+    (6, 'All Time')
 ]
 
 class SearchForm(forms.Form):
@@ -26,4 +34,6 @@ class SearchForm(forms.Form):
                                 (attrs={'placeholder':'Enter your address'}))
     radius = forms.IntegerField( required=False, widget = forms.NumberInput
                                 (attrs={'placeholder':'100km'}))
-    filter = forms.CharField(required = False, label = 'Filter', widget = forms.Select(choices=filters))
+    filter = forms.CharField(required = False, label = 'Sort', widget = forms.Select(choices=filters))
+
+    date = forms.CharField(required = False, label = 'Post Date', widget = forms.Select(choices=dates))
