@@ -30,7 +30,7 @@ def liner(address):
 def letgoLiner(address):
     address = address.replace(' ','+')
 
-    endpoint =f'https://maps.googleapis.com/maps/api/geocode/json?address={address}=&key=AIzaSyCjUgUpAnwQ-oZhB3nLwl8aS4EFQdxjqUQ'
+    endpoint =f'https://maps.googleapis.com/maps/api/geocode/json?address={address}=&key=uthough'
     request = endpoint
     response = urllib.request.urlopen(request).read()
     latlong = json.loads(response)
